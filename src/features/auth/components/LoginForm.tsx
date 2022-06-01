@@ -1,28 +1,46 @@
-import React from 'react'
-import { useForm } from 'react-hook-form'
-import useAuthStore from '../states'
+import React, { useEffect } from 'react'
+import { FieldValue, useForm } from 'react-hook-form'
+import useStore from '../../store'
+import useAuthService from '../services'
+import { AuthState, IAuthState } from '../states'
+
 const LoginForm: React.FC = () => {
-  const { register, handleSubmit } = useForm()
+  // zustand store
+  const token = useStore(state => state.token)
+  const setToken = useStore(state => state.setToken)
 
+  // form state
+  const { register, handleSubmit, getValues, setValue } = useForm({
+    defaultValues: {
+      accountId: '',
+      password: '',
+    },
+  })
+
+  // server state
+  const { data, refetch } = useAuthService(getValues())
+
+  useEffect(() => {
+    if (data?.token) {
+      // 토큰이 있는 경우 저장
+      setToken(data.token)
+    }
+  }, [data])
+
+  // form submit
   const onSubmit = (data: any) => {
-    console.log(data)
+    refetch()
   }
-
-  const inputState = useAuthStore(state => state.input)
-  const setInput = useAuthStore(state => state.setInput)
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div>
-        <label htmlFor="email">email</label>
+        <label htmlFor="accountId">email</label>
         <input
-          id="email"
+          id="accountId"
           type="email"
-          value={inputState.email}
-          {...register('email', {
-            required: true,
-            onChange: e => setInput('email', e.target.value),
-          })}
+          {...register('accountId', {})}
+          autoComplete="off"
         />
       </div>
 
@@ -31,11 +49,8 @@ const LoginForm: React.FC = () => {
         <input
           id="password"
           type="password"
-          value={inputState.password}
-          {...register('password', {
-            required: true,
-            onChange: e => setInput('password', e.target.value),
-          })}
+          {...register('password', {})}
+          autoComplete="off"
         />
       </div>
 
