@@ -3,7 +3,7 @@ import create from 'zustand'
 import { persist } from 'zustand/middleware'
 import { devtools } from 'zustand/middleware'
 
-interface IStore {
+export interface IStore {
   // auth
   token: string | null
   setToken: (token: string) => void
