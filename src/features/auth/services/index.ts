@@ -1,24 +1,14 @@
 import { AxiosResponse } from 'axios'
 import { useQuery } from 'react-query'
 import Axios from '../../../utils/axiosUtil'
-
-interface LoginPayload {
-  accountId: string
-  password: string
-  authentication: string
-}
-
-interface LoginResponse {
-  type: string
-  token: string
-}
+import { Authentication, LoginPayload, LoginResponse } from '../types'
 
 export const authService = {
   async login(payload: LoginPayload) {
     const res: AxiosResponse<LoginResponse> = await Axios.post('/auth/login', {
       accountId: payload.accountId,
       password: payload.password,
-      authentication: 'STATICKS',
+      authentication: Authentication.STATICKS,
     })
 
     return res.data

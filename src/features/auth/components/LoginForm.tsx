@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { FieldValue, useForm } from 'react-hook-form'
 import useStore from '../../store'
 import useAuthService from '../services'
-import { AuthState, IAuthState } from '../states'
 
 const LoginForm: React.FC = () => {
   // zustand store
