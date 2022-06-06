@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button, Input } from '../../../components/forms'
-import useStore from '../../store'
-import useAuthService from '../services'
+import useStore from '../../../store'
+import { useLoginService } from '../services'
 import { InputField } from '@/components/forms'
+import { useNavigate } from 'react-router-dom'
 
 const LoginForm: React.FC = () => {
+  const navigate = useNavigate()
   const setToken = useStore(state => state.setToken)
 
   // form state
@@ -23,12 +25,15 @@ const LoginForm: React.FC = () => {
   })
 
   // server state
-  const { data, refetch } = useAuthService(watch())
+  const { data, refetch } = useLoginService(watch())
 
   useEffect(() => {
     if (data?.token) {
       // 토큰이 있는 경우 저장
       setToken(data.token)
+
+      // 로그인 성공 시 `/projects` 로 이동
+      navigate('/projects')
     }
   }, [data])
 
@@ -62,7 +67,7 @@ const LoginForm: React.FC = () => {
       />
 
       <div>
-        <Button tw="w-full hocus:bg-gray-800 hocus:text-white" type="submit">
+        <Button tw="w-full" type="submit">
           Login
         </Button>
       </div>

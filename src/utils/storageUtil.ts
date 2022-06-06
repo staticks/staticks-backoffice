@@ -1,4 +1,4 @@
-import { IStore } from '../features/store'
+import { IStore } from '../store'
 
 interface IstorageStore {
   store: IStore

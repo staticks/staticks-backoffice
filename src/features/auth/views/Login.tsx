@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import LoginForm from '@/features/auth/components/LoginForm'
 import { Link } from 'react-router-dom'
 

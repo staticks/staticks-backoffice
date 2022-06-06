@@ -12,3 +12,9 @@ export interface LoginResponse {
   type: string
   token: string
 }
+
+export interface SinupPayload {
+  email: string
+  password: string
+  name: string
+}

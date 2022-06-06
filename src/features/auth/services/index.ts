@@ -1,7 +1,12 @@
 import { AxiosResponse } from 'axios'
 import { useQuery } from 'react-query'
 import Axios from '../../../utils/axiosUtil'
-import { Authentication, LoginPayload, LoginResponse } from '../types'
+import {
+  Authentication,
+  LoginPayload,
+  LoginResponse,
+  SinupPayload,
+} from '../types'
 
 export const authService = {
   async login(payload: LoginPayload) {
@@ -13,10 +18,19 @@ export const authService = {
 
     return res.data
   },
+  async signup(payload: SinupPayload) {
+    const res: AxiosResponse<LoginResponse> = await Axios.post('/auth', {
+      email: payload.email,
+      password: payload.password,
+      name: payload.name,
+    })
+
+    return res.data
+  },
 }
 
-function useAuthService(payload: LoginPayload | any) {
-  const { data, error, isLoading, refetch } = useQuery(
+export function useLoginService(payload: LoginPayload | any) {
+  const { data, status, error, isLoading, refetch } = useQuery(
     [
       'auth',
       'login',
@@ -33,9 +47,33 @@ function useAuthService(payload: LoginPayload | any) {
   return {
     data,
     error,
+    status,
     isLoading,
     refetch,
   }
 }
 
-export default useAuthService
+export function useSignupService(payload: SinupPayload) {
+  const { data, status, error, isLoading, refetch } = useQuery(
+    [
+      'auth',
+      'signup',
+      `email=${payload.email}`,
+      `password=${payload.password}`,
+      `name=${payload.name}`,
+    ],
+    () => authService.signup(payload),
+    {
+      enabled: false,
+      staleTime: Infinity,
+      retry: false,
+    },
+  )
+  return {
+    data,
+    error,
+    status,
+    isLoading,
+    refetch,
+  }
+}

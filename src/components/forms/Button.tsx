@@ -11,7 +11,7 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <button
       type={type}
-      tw="border border-gray-200 py-2 px-4 rounded text-base"
+      tw="bg-indigo-600 text-white py-2 px-4 rounded text-base"
       {...rest}
     >
       {children}
