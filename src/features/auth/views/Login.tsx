@@ -1,15 +1,18 @@
-import React, { useEffect } from 'react'
-import LoginForm from '../components/LoginForm'
+import React from 'react'
+import LoginForm from '@/features/auth/components/LoginForm'
+import { Link } from 'react-router-dom'
 
 const Login: React.FC = () => {
   return (
-    <div>
-      <h1>Staticks CMS</h1>
-      <div>
-        <h2>로그인</h2>
-        <LoginForm />
+    <>
+      <LoginForm />
+      <div tw="flex justify-between items-center">
+        <p tw="text-xs text-gray-400">계정이 없으신가요?</p>
+        <Link tw="text-xs text-gray-600 hocus:underline" to="/signup">
+          회원가입
+        </Link>
       </div>
-    </div>
+    </>
   )
 }
 

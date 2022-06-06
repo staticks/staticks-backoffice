@@ -25,7 +25,7 @@ function useAuthService(payload: LoginPayload | any) {
     ],
     () => authService.login(payload),
     {
-      enabled: !!payload.accountId && !!payload.password,
+      enabled: false,
       staleTime: Infinity,
       retry: false,
     },

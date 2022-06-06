@@ -1,15 +1,21 @@
 import React, { useEffect } from 'react'
-import { FieldValue, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
+import { Button, Input } from '../../../components/forms'
 import useStore from '../../store'
 import useAuthService from '../services'
+import { InputField } from '@/components/forms'
 
 const LoginForm: React.FC = () => {
-  // zustand store
-  const token = useStore(state => state.token)
   const setToken = useStore(state => state.setToken)
 
   // form state
-  const { register, handleSubmit, getValues, setValue } = useForm({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    mode: 'onSubmit',
     defaultValues: {
       accountId: '',
       password: '',
@@ -17,7 +23,7 @@ const LoginForm: React.FC = () => {
   })
 
   // server state
-  const { data, refetch } = useAuthService(getValues())
+  const { data, refetch } = useAuthService(watch())
 
   useEffect(() => {
     if (data?.token) {
@@ -32,29 +38,33 @@ const LoginForm: React.FC = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label htmlFor="accountId">email</label>
-        <input
-          id="accountId"
-          type="email"
-          {...register('accountId', {})}
-          autoComplete="off"
-        />
-      </div>
+    <form onSubmit={handleSubmit(onSubmit)} tw="flex flex-col gap-4">
+      <InputField
+        id="accountId"
+        type="email"
+        label="이메일"
+        errors={errors}
+        name="accountId"
+        register={register('accountId', {
+          required: '이메일을 입력해주세요',
+        })}
+      />
+
+      <InputField
+        id="password"
+        type="password"
+        label="비밀번호"
+        errors={errors}
+        name="password"
+        register={register('password', {
+          required: '비밀번호를 입력해주세요',
+        })}
+      />
 
       <div>
-        <label htmlFor="password">password</label>
-        <input
-          id="password"
-          type="password"
-          {...register('password', {})}
-          autoComplete="off"
-        />
-      </div>
-
-      <div>
-        <button type="submit">Login</button>
+        <Button tw="w-full hocus:bg-gray-800 hocus:text-white" type="submit">
+          Login
+        </Button>
       </div>
     </form>
   )
