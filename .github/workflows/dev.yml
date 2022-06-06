@@ -46,7 +46,7 @@ jobs:
       - name: Generate static files
         env:
           VITE_API_HOST: ${{ secrets.VITE_API_HOST }}
-        run: yarn build
+        run: yarn build:dev
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1

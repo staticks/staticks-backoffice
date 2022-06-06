@@ -8,13 +8,15 @@
   "scripts": {
     "postinstall": "patch-package",
     "dev": "NODE_ENV=development vite",
-    "build": "tsc && vite build --debug",
+    "build": "tsc && vite build",
+    "build:dev": "tsc && vite build --mode development",
     "serve": "vite preview",
     "mock-api": "json-server --watch mock/db.js --port 3038"
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
+    "@heroicons/react": "^1.0.6",
     "@hookform/error-message": "^2.0.0",
     "axios": "^0.27.2",
     "immer": "^9.0.14",
