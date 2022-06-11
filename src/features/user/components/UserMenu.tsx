@@ -1,9 +1,7 @@
 import useStore from '@/store'
 import { LogoutIcon, UserIcon } from '@heroicons/react/outline'
-import React, { memo, useCallback, useEffect, useMemo } from 'react'
+import React, { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import tw from 'twin.macro'
-import useUser from '../hooks/useUser'
 import { useUserService } from '../service'
 import { User } from '../types'
 

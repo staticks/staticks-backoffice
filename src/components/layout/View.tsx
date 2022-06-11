@@ -1,7 +1,7 @@
-import { css } from '@emotion/react'
 import React from 'react'
-import { Outlet } from 'react-router-dom'
 import tw from 'twin.macro'
+import { css } from '@emotion/react'
+import { Outlet } from 'react-router-dom'
 
 export interface ViewProps extends React.HTMLAttributes<HTMLDivElement> {
   hasOutlet?: boolean

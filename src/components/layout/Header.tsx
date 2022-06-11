@@ -1,8 +1,7 @@
-import { ChevronLeftIcon } from '@heroicons/react/solid'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { ChevronLeftIcon } from '@heroicons/react/solid'
 import tw from 'twin.macro'
-import { Button } from '../forms'
 
 export interface PageHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'

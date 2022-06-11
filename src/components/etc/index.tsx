@@ -1,4 +1,2 @@
-import NotYet from "./NotYet";
-
-
-export * from NotYet;
+// ATOM
+export * from './NotYet'

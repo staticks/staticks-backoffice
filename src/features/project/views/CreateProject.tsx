@@ -1,4 +1,4 @@
-import { View, ViewBox, ViewPage } from '@/components/layout'
+import { View, ViewBox } from '@/components/layout'
 import PageHeader from '@/components/layout/Header'
 import React from 'react'
 import CreateProjectForm from '../components/CreateProjectForm'
