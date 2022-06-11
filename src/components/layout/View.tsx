@@ -6,6 +6,8 @@ import tw from 'twin.macro'
 export interface ViewProps extends React.HTMLAttributes<HTMLDivElement> {
   hasOutlet?: boolean
   type?: 'center' | 'full'
+  topElement?: React.ReactNode
+  bottomElement?: React.ReactNode
 }
 
 const styleMap = {
@@ -42,18 +44,51 @@ export const ViewBox: React.FC<ViewProps> = ({ children, ...rest }) => {
   )
 }
 
-export const ViewPage: React.FC<ViewProps> = ({ children, ...rest }) => {
+export const ViewPage: React.FC<ViewProps> = ({
+  children,
+  topElement,
+  bottomElement,
+  ...rest
+}) => {
   return (
-    <div
-      css={[
-        // 내부 스타일
-        tw`border border-gray-200 bg-white rounded-lg`,
+    <>
+      {topElement && (
+        <aside
+          css={[
+            // 반응형
+            tw`lg:w-[944px] lg:mx-auto`,
+          ]}
+        >
+          {topElement}
+        </aside>
+      )}
+      <div
+        css={[
+          // 내부 스타일
+          tw`relative border border-gray-200 bg-white rounded-lg`,
 
-        // 반응형
-        tw`w-full lg:w-[944px] lg:mx-auto p-6 lg:p-10`,
-      ]}
-    >
-      {children}
-    </div>
+          // 반응형
+          tw`w-full lg:w-[944px] lg:mx-auto p-6 lg:p-10`,
+
+          // topElement 존재 시
+          topElement && tw`mt-4`,
+
+          // bottomElement 존재 시
+          bottomElement && tw`mb-4`,
+        ]}
+      >
+        {children}
+      </div>
+      {bottomElement && (
+        <aside
+          css={[
+            // 반응형
+            tw`w-full lg:w-[944px] lg:mx-auto`,
+          ]}
+        >
+          {bottomElement}
+        </aside>
+      )}
+    </>
   )
 }
