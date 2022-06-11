@@ -30,7 +30,7 @@ const LoginForm: React.FC = () => {
   // 로그인 성공 시 처리
   const onLoginSuccess = (data: LoginResponse) => {
     setToken(data.token)
-    navigate('/projects')
+    navigate('/project')
   }
 
   // 로그인 실패시 처리
