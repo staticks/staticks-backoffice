@@ -14,10 +14,6 @@ const ProjectTop = () => {
   )
 }
 
-const ProjectItem = () => {
-  return <div tw=""></div>
-}
-
 const Projects = () => {
   const { data } = useProjectService({
     offset: 0,
@@ -39,7 +35,9 @@ const Projects = () => {
                 tw="w-full h-[90px] border border-gray-300 rounded p-4 hocus:bg-gray-50"
               >
                 <dl tw="flex flex-col gap-2">
-                  <dt tw="font-bold text-xl text-gray-800">{project.name}</dt>
+                  <dt tw="w-full font-bold text-xl text-gray-800 overflow-hidden truncate">
+                    {project.name}
+                  </dt>
                   <dd tw="text-sm text-gray-400">{project.description}</dd>
                 </dl>
               </Link>
