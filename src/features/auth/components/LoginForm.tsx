@@ -5,6 +5,9 @@ import useStore from '../../../store'
 import { useLoginService } from '../services'
 import { InputField } from '@/components/forms'
 import { useNavigate } from 'react-router-dom'
+import { LoginResponse } from '../types'
+import { AxiosError } from 'axios'
+import { ErrorResponse } from '@/utils/axiosUtil'
 
 const LoginForm: React.FC = () => {
   const navigate = useNavigate()
@@ -24,18 +27,19 @@ const LoginForm: React.FC = () => {
     },
   })
 
-  // server state
-  const { data, refetch } = useLoginService(watch())
+  // 로그인 성공 시 처리
+  const onLoginSuccess = (data: LoginResponse) => {
+    setToken(data.token)
+    navigate('/projects')
+  }
 
-  useEffect(() => {
-    if (data?.token) {
-      // 토큰이 있는 경우 저장
-      setToken(data.token)
+  // 로그인 실패시 처리
+  const onLoginFailure = (error: AxiosError<ErrorResponse>) => {
+    const message = error?.response?.data.message
+    alert(message)
+  }
 
-      // 로그인 성공 시 `/projects` 로 이동
-      navigate('/projects')
-    }
-  }, [data])
+  const { refetch } = useLoginService(watch(), onLoginSuccess, onLoginFailure)
 
   // form submit
   const onSubmit = (data: any) => {

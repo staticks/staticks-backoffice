@@ -1,7 +1,7 @@
 import { IStore } from '../store'
 
 interface IstorageStore {
-  store: IStore
+  state: IStore
 }
 
 export const getToken = (): string | null => {
@@ -10,5 +10,5 @@ export const getToken = (): string | null => {
   if (!storageData) return null
 
   const parsedData: IstorageStore = JSON.parse(storageData)
-  return parsedData?.store?.token
+  return parsedData?.state?.token
 }

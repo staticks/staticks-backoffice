@@ -1,6 +1,6 @@
-import { AxiosResponse } from 'axios'
+import type { AxiosError, AxiosResponse } from 'axios'
 import { useQuery } from 'react-query'
-import Axios from '../../../utils/axiosUtil'
+import Axios, { ErrorResponse } from '@/utils/axiosUtil'
 import {
   Authentication,
   LoginPayload,
@@ -29,8 +29,12 @@ export const authService = {
   },
 }
 
-export function useLoginService(payload: LoginPayload | any) {
-  const { data, status, error, isLoading, refetch } = useQuery(
+export function useLoginService(
+  payload: LoginPayload | any,
+  onSuccess: (data: LoginResponse) => void,
+  onError: (error: AxiosError<ErrorResponse>) => void,
+) {
+  return useQuery<LoginResponse, AxiosError<ErrorResponse>>(
     [
       'auth',
       'login',
@@ -42,15 +46,12 @@ export function useLoginService(payload: LoginPayload | any) {
       enabled: false,
       staleTime: Infinity,
       retry: false,
+      onSuccess,
+      onError: data => {
+        onError && onError(data)
+      },
     },
   )
-  return {
-    data,
-    error,
-    status,
-    isLoading,
-    refetch,
-  }
 }
 
 export function useSignupService(payload: SinupPayload) {
