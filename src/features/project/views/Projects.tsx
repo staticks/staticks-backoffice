@@ -5,6 +5,7 @@ import NeedCreateProject from '../components/NeedCreateProject'
 import UserMenu from '@/features/user/components/UserMenu'
 import { Link } from 'react-router-dom'
 import { PlusCircleIcon } from '@heroicons/react/outline'
+import ProjectItem from '../components/ProjectItem'
 
 const ProjectTop = () => {
   return (
@@ -29,18 +30,7 @@ const Projects = () => {
         {data?.projects && data?.projects?.length > 0 && (
           <div tw="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {data.projects.map(project => (
-              <Link
-                to={'/project/' + project.id}
-                key={project.id}
-                tw="w-full h-[90px] border border-gray-300 rounded p-4 hocus:bg-gray-50"
-              >
-                <dl tw="flex flex-col gap-2">
-                  <dt tw="w-full font-bold text-xl text-gray-800 overflow-hidden truncate">
-                    {project.name}
-                  </dt>
-                  <dd tw="text-sm text-gray-400">{project.description}</dd>
-                </dl>
-              </Link>
+              <ProjectItem project={project} key={project.id} />
             ))}
             <Link
               to={'/project/create'}
