@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 import { getToken } from './storageUtil'
+import toast from 'react-hot-toast'
 // interceptor 구성
 // 요청 전에 실행
 

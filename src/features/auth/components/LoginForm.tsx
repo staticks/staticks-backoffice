@@ -36,7 +36,7 @@ const LoginForm: React.FC = () => {
   // 로그인 실패시 처리
   const onLoginFailure = (error: AxiosError<ErrorResponse>) => {
     const message = error?.response?.data.message
-    alert(message)
+    // do nothing...
   }
 
   const { refetch } = useLoginService(watch(), onLoginSuccess, onLoginFailure)

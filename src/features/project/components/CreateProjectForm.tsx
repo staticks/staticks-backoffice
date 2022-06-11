@@ -28,12 +28,11 @@ const CreateProjectForm: React.FC = () => {
   const { mutate: createProject } = useCreateProject(
     watch(),
     () => {
-      alert('프로젝트가 정상적으로 생성되었습니다.')
       queryClient.invalidateQueries(['projects', 'getProjectMe'])
       navigate('../')
     },
     () => {
-      alert('프로젝트 생성에 실패했습니다.')
+      // do nothing...
     },
   )
 

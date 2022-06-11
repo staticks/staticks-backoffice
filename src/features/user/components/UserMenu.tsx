@@ -4,6 +4,7 @@ import React, { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useUserService } from '../service'
 import { User } from '../types'
+import toast from 'react-hot-toast'
 
 const UserInfo: React.FC<{
   user?: User
@@ -42,6 +43,7 @@ const UserMenu: React.FC = () => {
 
   const handleLogout = useCallback(() => {
     removeToken()
+    toast.success('로그아웃 되었습니다.')
     navigate('/login')
   }, [])
 

@@ -35,7 +35,6 @@ const SignupForm: React.FC = () => {
   // 가입 처리 이후 로그인으로 이동
   useEffect(() => {
     if (status === 'success') {
-      alert('가입 성공')
       navigate('/login')
     }
   }, [data, status])

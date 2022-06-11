@@ -1,5 +1,6 @@
 import type { AxiosError, AxiosResponse } from 'axios'
 import { useQuery } from 'react-query'
+import toast from 'react-hot-toast'
 import Axios, { ErrorResponse } from '@/utils/axiosUtil'
 import {
   Authentication,
@@ -46,8 +47,16 @@ export function useLoginService(
       enabled: false,
       staleTime: Infinity,
       retry: false,
-      onSuccess,
+      onSuccess: data => {
+        toast.success('로그인 성공', {
+          duration: 1000,
+        })
+        onSuccess && onSuccess(data)
+      },
       onError: data => {
+        toast.error(data.response?.data.message || '로그인 실패', {
+          duration: 1000,
+        })
         onError && onError(data)
       },
     },
@@ -68,6 +77,16 @@ export function useSignupService(payload: SinupPayload) {
       enabled: false,
       staleTime: Infinity,
       retry: false,
+      onSuccess: data => {
+        toast.success('회원가입 성공', {
+          duration: 1000,
+        })
+      },
+      onError: data => {
+        toast.error('회원가입 실패', {
+          duration: 1000,
+        })
+      },
     },
   )
   return {
