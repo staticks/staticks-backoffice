@@ -5,12 +5,22 @@ import tw from 'twin.macro'
 
 export interface ViewProps extends React.HTMLAttributes<HTMLDivElement> {
   hasOutlet?: boolean
-  page?: boolean
+  type?: 'center' | 'full'
 }
 
-export const View: React.FC<ViewProps> = ({ hasOutlet, children }) => {
+const styleMap = {
+  center: tw`flex justify-center h-[100vh] overflow-y-auto`,
+  full: tw`p-5 md:p-10 min-h-screen`,
+}
+
+export const View: React.FC<ViewProps> = ({
+  hasOutlet,
+  children,
+  type = 'center',
+  ...rest
+}) => {
   return (
-    <div tw="bg-gray-50 flex justify-center h-[100vh] overflow-y-auto">
+    <div css={[tw`bg-gray-50 w-full`, styleMap[type]]}>
       {hasOutlet ? <Outlet /> : children}
     </div>
   )
@@ -36,8 +46,11 @@ export const ViewPage: React.FC<ViewProps> = ({ children, ...rest }) => {
   return (
     <div
       css={[
-        tw`border border-gray-200 bg-white rounded-lg p-8`,
-        tw`w-full max-w-[800px] mx-5 my-10 overflow-auto`,
+        // 내부 스타일
+        tw`border border-gray-200 bg-white rounded-lg`,
+
+        // 반응형
+        tw`w-full lg:w-[944px] lg:mx-auto p-6 lg:p-10`,
       ]}
     >
       {children}
