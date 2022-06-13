@@ -15,6 +15,12 @@ export const ProjectService = {
   async createProject(payload: ProjectPayload.Create) {
     return await Axios.post('/project', payload)
   },
+  async getProjectToken(projectId: number) {
+    const res: AxiosResponse<{
+      token: string
+    }> = await Axios.get(`/project/${projectId}/token`)
+    return res.data
+  },
 }
 
 export function useProjectService(payload: ProjectPayload.Me) {
@@ -62,4 +68,15 @@ export function useCreateProject(
     status,
     data,
   }
+}
+
+export function useProjectTokenService(projectId: number) {
+  return useQuery(
+    ['projects', 'getProjectToken', projectId],
+    () => ProjectService.getProjectToken(projectId),
+    {
+      enabled: getToken() !== null,
+      retry: false,
+    },
+  )
 }
