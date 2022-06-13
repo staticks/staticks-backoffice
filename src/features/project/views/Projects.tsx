@@ -1,6 +1,6 @@
 import { View, ViewPage } from '@/components/layout'
 import PageHeader from '@/components/layout/Header'
-import { useProjectService } from '../services'
+import { useProjectService } from '../services/index'
 import NeedCreateProject from '../components/NeedCreateProject'
 import UserMenu from '@/features/user/components/UserMenu'
 import { Link } from 'react-router-dom'
