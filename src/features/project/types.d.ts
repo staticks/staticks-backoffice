@@ -1,4 +1,4 @@
-import { ProjectType } from './constant'
+import { ProjectType, UserRole } from './constant'
 
 export interface ProjectList {
   projects: Project[]
@@ -22,4 +22,14 @@ export module ProjectPayload {
     description: string
     type: ProjectType
   }
+  type Members = {
+    offset: number
+    limit: number
+  }
+}
+
+export interface MemberItem {
+  id: number
+  name: string
+  role: UserRole
 }

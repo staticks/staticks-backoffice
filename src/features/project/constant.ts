@@ -9,3 +9,7 @@ export const ProjectTypeLabelMap: {
   PERSONAL: '개인용',
   PROJECT: '프로젝트',
 }
+
+export enum UserRole {
+  ADMIN = 'ADMIN',
+}
