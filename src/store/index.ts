@@ -8,6 +8,19 @@ export interface IStore {
   token: string | null
   setToken: (token: string) => void
   removeToken: () => void
+  // current project
+  currentProjectId: number | null
+  setCurrentProjectId: (id: number) => void
+  removeCurrentProjectId: () => void
+  // project token
+  applicationToken: {
+    [projectId: number]: string
+  }
+  getProjectToken: (projectId: number) => string | null
+  setApplicationToken: (applicationToken: {
+    [projectId: number]: string
+  }) => void
+  removeApplicationToken: () => void
 }
 
 const useStore = create<IStore>()(
@@ -30,6 +43,49 @@ const useStore = create<IStore>()(
             }),
             false,
             'removeToken',
+          ),
+
+        currentProjectId: null,
+        setCurrentProjectId: (projectId: number) =>
+          set(
+            produce<IStore>(store => {
+              store.currentProjectId = projectId
+            }),
+            false,
+            'setCurrentProjectId',
+          ),
+        removeCurrentProjectId: () =>
+          set(
+            produce<IStore>(store => {
+              store.currentProjectId = null
+            }),
+            false,
+            'removeCurrentProjectId',
+          ),
+
+        applicationToken: {},
+        getProjectToken: (projectId: number) =>
+          get().applicationToken?.[projectId] || null,
+        setApplicationToken: (applicationToken: {
+          [projectId: number]: string
+        }) =>
+          set(
+            produce<IStore>(store => {
+              store.applicationToken = {
+                ...store.applicationToken,
+                ...applicationToken,
+              }
+            }),
+            false,
+            'setApplicationToken',
+          ),
+        removeApplicationToken: () =>
+          set(
+            produce<IStore>(store => {
+              store.applicationToken = {}
+            }),
+            false,
+            'removeApplicationToken',
           ),
       }),
       {

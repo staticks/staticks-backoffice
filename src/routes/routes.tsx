@@ -10,6 +10,9 @@ const Projects = lazy(() => import('@/features/project/views/Projects'))
 const CreateProject = lazy(
   () => import('@/features/project/views/CreateProject'),
 )
+const ProjectDashboard = lazy(
+  () => import('@/features/project/views/ProjectDashboard'),
+)
 
 export default () => (
   <Suspense
@@ -29,14 +32,7 @@ export default () => (
         <Route path="/project" element={<PrivateRoute />}>
           <Route path="" element={<Projects />} />
           <Route path="create" element={<CreateProject />} />
-          <Route
-            path=":projectId"
-            element={
-              <View>
-                <ViewBox>페이지 준비중...</ViewBox>
-              </View>
-            }
-          />
+          <Route path=":projectId" element={<ProjectDashboard />} />
         </Route>
       </Routes>
     </BrowserRouter>

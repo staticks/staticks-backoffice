@@ -39,10 +39,16 @@ const LogoutButton: React.FC<{
 const UserMenu: React.FC = () => {
   const navigate = useNavigate()
   const { data: user, isLoading } = useUserService()
+
   const removeToken = useStore(store => store.removeToken)
+  const removeApplicationToken = useStore(store => store.removeApplicationToken)
+  const removeCurrentProjectId = useStore(store => store.removeCurrentProjectId)
 
   const handleLogout = useCallback(() => {
     removeToken()
+    removeCurrentProjectId()
+    removeApplicationToken()
+
     toast.success('로그아웃 되었습니다.')
     navigate('/login')
   }, [])

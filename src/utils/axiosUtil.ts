@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios'
-import { getToken } from './storageUtil'
+import { getProjectToken, getToken } from './storageUtil'
 import toast from 'react-hot-toast'
+import useStore from '@/store'
 // interceptor 구성
 // 요청 전에 실행
 
@@ -20,9 +21,16 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config: any) => {
     const token = getToken()
+    const projectToken = getProjectToken()
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
+
+    if (projectToken) {
+      config.headers.Application = `${projectToken}`
+    }
+
     return config
   },
   (error: any) => {
