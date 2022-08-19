@@ -18,19 +18,20 @@ const ProjectTop = () => {
 const ProjectDashBoard = () => {
   const { projectId } = useParams()
 
-  const { data, isLoading } = useProjectTokenService(Number(projectId))
-
-  const projectToken = data?.token
+  const { data } = useProjectTokenService(Number(projectId))
 
   const setCurrentProjectId = useStore(state => state.setCurrentProjectId)
   const setApplicationToken = useStore(state => state.setApplicationToken)
   const getProjectToken = useStore(state => state.getProjectToken)
 
-  const { data: members, refetch: refetchProjectMembers } =
-    useProjectMembersService({
-      offset: 0,
-      limit: 200,
-    })
+  const {
+    data: members,
+    refetch: refetchProjectMembers,
+    isError,
+  } = useProjectMembersService(Number(projectId), {
+    offset: 0,
+    limit: 200,
+  })
 
   useEffect(() => {
     if (!getProjectToken(Number(projectId))) {
@@ -39,9 +40,11 @@ const ProjectDashBoard = () => {
   }, [projectId])
 
   useEffect(() => {
+    const projectToken = data?.token
+
     if (!projectToken) {
       // 응답이 정상이 아닌 경우에는 에러 메시지를 보여준다.
-      !isLoading && toast.error('프로젝트 토큰을 가져오는데 실패했습니다.')
+      isError && toast.error('프로젝트 토큰을 가져오는데 실패했습니다.')
       return
     }
 
@@ -53,7 +56,7 @@ const ProjectDashBoard = () => {
     map[Number(projectId)] = projectToken
     setApplicationToken(map)
     refetchProjectMembers()
-  }, [data, isLoading])
+  }, [data?.token])
 
   return (
     <View type="full">
