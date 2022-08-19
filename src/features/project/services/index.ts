@@ -94,11 +94,7 @@ export function useProjectTokenService(projectId: number) {
   )
 }
 
-export function useProjectMembersService(
-  projectId: number,
-  payload: ProjectPayload.Members,
-) {
-  const getProjectToken = useStore(state => state.getProjectToken)
+export function useProjectMembersService(payload: ProjectPayload.Members) {
   return useQuery(
     [
       'projects',
@@ -108,7 +104,6 @@ export function useProjectMembersService(
     ],
     () => ProjectService.getProjectMembers(payload),
     {
-      enabled: !!getProjectToken(projectId),
       retry: false,
     },
   )

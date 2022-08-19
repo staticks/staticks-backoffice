@@ -5,6 +5,7 @@ import useStore from '@/store/index'
 import { useProjectMembersService, useProjectTokenService } from '../services'
 import { useEffect } from 'react'
 import ProjectMembers from '../components/ProjectMembers'
+import toast from 'react-hot-toast'
 
 const ProjectTop = () => {
   return (
@@ -18,9 +19,18 @@ const ProjectDashBoard = () => {
   const { projectId } = useParams()
 
   const { data, isLoading } = useProjectTokenService(Number(projectId))
+
+  const projectToken = data?.token
+
   const setCurrentProjectId = useStore(state => state.setCurrentProjectId)
   const setApplicationToken = useStore(state => state.setApplicationToken)
   const getProjectToken = useStore(state => state.getProjectToken)
+
+  const { data: members, refetch: refetchProjectMembers } =
+    useProjectMembersService({
+      offset: 0,
+      limit: 200,
+    })
 
   useEffect(() => {
     if (!getProjectToken(Number(projectId))) {
@@ -29,21 +39,21 @@ const ProjectDashBoard = () => {
   }, [projectId])
 
   useEffect(() => {
+    if (!projectToken) {
+      // 응답이 정상이 아닌 경우에는 에러 메시지를 보여준다.
+      !isLoading && toast.error('프로젝트 토큰을 가져오는데 실패했습니다.')
+      return
+    }
+
     // 프로젝트 Id 와 토큰의 값을 매칭하기위한 해시맵
     const map: { [projectId: number]: string } = {}
 
     // 응답이 정상이고, 토큰값이 존재하면 해시맵에 저장한다.
-    if (data?.token) {
-      // 프로젝트 토큰 저장
-      map[Number(projectId)] = data.token
-      setApplicationToken(map)
-    }
-  }, [data])
-
-  const { data: members } = useProjectMembersService(Number(projectId), {
-    offset: 0,
-    limit: 200,
-  })
+    // 프로젝트 토큰 저장
+    map[Number(projectId)] = projectToken
+    setApplicationToken(map)
+    refetchProjectMembers()
+  }, [data, isLoading])
 
   return (
     <View type="full">
